@@ -1,66 +1,83 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>TestManagement</title>
-</head>
-<body>
-    <h1>TestManagement</h1>
+# TestManagement
 
-    <h2>Introduction</h2>
-    <p>TestManagement is a Spring Boot application for managing multiple-choice questions via REST API. It allows users to perform CRUD operations on MCQ questions stored in a PostgreSQL database. Each question includes details such as category, options, correct answer, and scoring.</p>
+TestManagement is a Spring Boot application for managing multiple-choice questions via REST API.
 
-    <h2>Technologies Used</h2>
-    <ul>
-        <li>Java 21</li>
-        <li>Spring Boot 3 (latest)</li>
-        <li>PostgreSQL</li>
-        <li>Hibernate (as the JPA implementation)</li>
-        <li>JUnit 5</li>
-        <li>Maven (for dependency management)</li>
-        <li>Postman (for API testing)</li>
-    </ul>
+## Table of Contents
+- [Introduction](#introduction)
+- [Technologies Used](#technologies-used)
+- [Setup Instructions](#setup-instructions)
+  - [Prerequisites](#prerequisites)
+  - [Clone the Repository](#clone-the-repository)
+  - [Database Configuration](#database-configuration)
+  - [Run the Application](#run-the-application)
+- [API Endpoints](#api-endpoints)
+  - [Create MCQ Question](#create-mcq-question)
+  - [Read All Questions](#read-all-questions)
+  - [Read Specific Question](#read-specific-question)
+  - [Update Question](#update-question)
+  - [Delete Question](#delete-question)
 
-    <h2>Setup Instructions</h2>
 
-    <h3>Prerequisites</h3>
-    <p>Make sure you have the following installed:</p>
-    <ul>
-        <li>Java 21 SDK</li>
-        <li>Maven</li>
-        <li>PostgreSQL</li>
-    </ul>
+## Introduction
+This project, TestManagement, is designed to facilitate the management of multiple-choice questions (MCQs) through a RESTful API. It allows users to perform CRUD operations on MCQ questions stored in a PostgreSQL database. Each question includes details such as category, options, correct answer, and scoring.
 
-    <h3>Clone the Repository</h3>
-    <p>Clone the TestManagement repository from GitHub:</p>
-    <pre><code>git clone &lt;repository_url&gt;
-cd TestManagement
-    </code></pre>
+## Technologies Used
+- Spring Boot 3 (latest)
+- PostgreSQL
+- Hibernate (as the JPA implementation)
+- JUnit 5
+- Graddle (for dependency management)
+- Postman (for API testing)
 
-    <h3>Database Configuration</h3>
-    <p>Create Database:</p>
-    <p>Create a PostgreSQL database named <code>TestManagementDB</code>.</p>
-    <p>Configure Database Connection:</p>
-    <p>Update <code>application.properties</code> file located in <code>src/main/resources</code> with your PostgreSQL database configuration:</p>
-    <pre><code>spring.datasource.url=jdbc:postgresql://localhost:5432/TestManagementDB
+## Setup Instructions
+### Prerequisites
+Make sure you have the following installed:
+- Java 21 SDK
+- Graddle
+- PostgreSQL
+
+### Clone the Repository
+Clone the TestManagement repository from GitHub:
+- git clone <repository_url>
+- cd TestManagement
+
+## Database Configuration
+
+### Create Database
+
+Create a PostgreSQL database named TestManagementDB.
+
+### Configure Database Connection
+
+Update `application.properties` file located in `src/main/resources` with your PostgreSQL database configuration:
+
+```properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/TestManagementDB
 spring.datasource.username=your_username
 spring.datasource.password=your_password
 spring.jpa.hibernate.ddl-auto=update
-    </code></pre>
+```
 
-    <h3>Run the Application</h3>
-    <p>Navigate to the root directory of the project and run the following Maven command:</p>
-    <pre><code>mvn spring-boot:run
-    </code></pre>
-    <p>The application will start on the default port 8080.</p>
+## Setup Instructions
 
-    <h2>API Endpoints</h2>
+### Run the Application
+To start the application, navigate to the root directory of the project and run:
+```bash
+mvn spring-boot:run
+```
 
-    <h3>Create MCQ Question</h3>
-    <p><strong>POST</strong> <code>/api/questions</code></p>
-    <p>Create a new MCQ question using JSON payload in the request body.</p>
-    <p>Example Request Body:</p>
-    <pre><code>{
+## API Endpoints
+
+### Create MCQ Question
+
+**POST** `(http://localhost:8080/mcq/createQuestion)`
+
+Create a new MCQ question using JSON payload in the request body.
+
+#### Example Request Body:
+
+```json
+{
     "category": "SpringBoot",
     "question": "In Spring Boot @RestController annotation is equivalent to",
     "optionOne": "@Controller and @PostMapping",
@@ -71,41 +88,37 @@ spring.jpa.hibernate.ddl-auto=update
     "positiveMark": 3,
     "negativeMark": -1
 }
-    </code></pre>
+```
+## API Endpoints
 
-    <h3>Read All Questions</h3>
-    <p><strong>GET</strong> <code>/api/questions</code></p>
-    <p>Retrieve all MCQ questions stored in the database.</p>
+### Read All Questions
 
-    <h3>Read Specific Question</h3>
-    <p><strong>GET</strong> <code>/api/questions/{questionId}</code></p>
-    <p>Retrieve a specific MCQ question by its <code>questionId</code>.</p>
+**GET** `(http://localhost:8080/mcq/getAllQuestion)`
 
-    <h3>Update Question</h3>
-    <p><strong>PUT</strong> <code>/api/questions/{questionId}</code></p>
-    <p>Update an existing MCQ question identified by <code>questionId</code> using JSON payload in the request body.</p>
+Retrieve all MCQ questions stored in the database.
 
-    <h3>Delete Question</h3>
-    <p><strong>DELETE</strong> <code>/api/questions/{questionId}</code></p>
-    <p>Delete an existing MCQ question identified by <code>questionId</code>.</p>
+### Read Specific Question
 
-    <h2>Testing</h2>
-    <p>Use Postman or any API testing tool to test the endpoints defined above. Ensure to test all CRUD operations thoroughly.</p>
+**GET** `(http://localhost:8080/mcq/getQuestion/3)`
 
-    <h2>Contributing</h2>
-    <p>Contributions are welcome! If you have any suggestions or improvements, please fork the repository and create a pull request.</p>
+Retrieve a specific MCQ question by its `questionId`.
 
-    <h2>License</h2>
-    <p>This project is licensed under the MIT License.</p>
+### Update Question
 
-    <p><strong>Notes:</strong></p>
-    <ul>
-        <li>Replace <code>&lt;repository_url&gt;</code>, <code>your_username</code>, and <code>your_password</code> with appropriate values according to your setup.</li>
-        <li>Ensure to keep the README updated with any changes or additions to the project.</li>
-        <li>Provide detailed instructions on how to use and test the API endpoints.</li>
-        <li>Include any additional information specific to your project setup or configuration.</li>
-    </ul>
+**PUT** `(http://localhost:8080/mcq/updateQuestion/3?category=Core Java&question=Which access modifier cannot access other than its own class&option_one=public&option_two=default&option_three=private&option_four=protected&correct_option=private)`
 
-    <p>This README file serves as a guide for anyone cloning and working with your TestManagement project, ensuring they can easily set up the environment, understand the project structure, and effectively utilize the provided REST API. Adjust the contents as per your project's specific details and requirements.</p>
-</body>
-</html>
+Update an existing MCQ question identified by `questionId` using JSON payload in the request body.
+
+### Delete Question
+
+**DELETE** `(http://localhost:8080/mcq/deleteQuestion/3)`
+
+Delete an existing MCQ question identified by `questionId`.
+
+
+
+
+
+
+
+
