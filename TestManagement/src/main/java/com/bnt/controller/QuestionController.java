@@ -46,7 +46,7 @@ public class QuestionController {
 
     @PutMapping("/updateQuestion/{id}")
         public ResponseEntity<Question> updateQuestion(@PathVariable int id, @RequestParam String category, @RequestParam String question, @RequestParam String option_one, @RequestParam String option_two, @RequestParam String option_three, @RequestParam String option_four, @RequestParam String correct_option){
-            Question updatedQuestion = new Question(id, category, question, option_one, option_two, option_three, option_four, correct_option, option_four, correct_option);
+            Question updatedQuestion = new Question(id, question, option_one, option_two, option_three, option_four, correct_option, option_four, correct_option, null);
             Question updateQuestion = questionService.updateQuestion(updatedQuestion);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(updateQuestion);
         }
