@@ -1,5 +1,6 @@
 package com.bnt.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,7 +31,7 @@ public class Question {
     private String positive_mark;
     private String negative_mark;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "subcategory_id")
     private Subcategory subcategory;
     

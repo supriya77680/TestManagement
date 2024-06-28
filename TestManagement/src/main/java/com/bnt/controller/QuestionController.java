@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bnt.model.Question;
@@ -45,15 +44,15 @@ public class QuestionController {
     }
 
     @PutMapping("/updateQuestion/{id}")
-        public ResponseEntity<Question> updateQuestion(@PathVariable int id, @RequestParam String category, @RequestParam String question, @RequestParam String option_one, @RequestParam String option_two, @RequestParam String option_three, @RequestParam String option_four, @RequestParam String correct_option){
-            Question updatedQuestion = new Question(id, question, option_one, option_two, option_three, option_four, correct_option, option_four, correct_option, null);
-            Question updateQuestion = questionService.updateQuestion(updatedQuestion);
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(updateQuestion);
-        }
+    public Question updateQuestion(@PathVariable("id") int id,@RequestBody Question question){
+        return questionService.updateQuestion(id, question);
+    }
 
     @DeleteMapping("/deleteQuestion/{id}")
     public ResponseEntity<String> deleteQuestion(@PathVariable int id){
         questionService.deleteQuestion(id);
         return ResponseEntity.ok("Deleted the question with id : " + id);
     }
+
+   
 }

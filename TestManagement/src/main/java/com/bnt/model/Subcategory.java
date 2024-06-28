@@ -25,7 +25,7 @@ public class Subcategory {
     private String subcategory_name;
     private String subcategory_description;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id")
     private Category category;
 }

@@ -2,7 +2,6 @@ package com.bnt.controllerTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -20,13 +19,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.bnt.controller.QuestionController;
+import com.bnt.model.Category;
 import com.bnt.model.Question;
+import com.bnt.model.Subcategory;
 import com.bnt.repository.QuestionRepository;
 import com.bnt.service.QuestionService;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
-public class ControllerTest {
+public class QuestionControllerTest {
 
     @Mock
     QuestionRepository questionRepository;
@@ -39,7 +40,7 @@ public class ControllerTest {
 
     @Test
     void testCreateQuestion(){
-        Question question = new Question(1, "In Spring Boot @RestController annotation is equivalent to", "@Controller and @PostMapping", "@Controller and @Component", "@Controller and @ResponseBody", "@Controller and @ResponseStatus","@Controller and @ResponseBody","3", "-1", null);
+        Question question = new Question(1, "In Spring Boot @RestController annotation is equivalent to", "@Controller and @PostMapping", "@Controller and @Component", "@Controller and @ResponseBody", "@Controller and @ResponseStatus","@Controller and @ResponseBody","3", "-1",new Subcategory(1, "Exception Handling", "Exception Handling Form in java", new Category(1, "Java", "Core java Category")));
         ResponseEntity<Question> expectedResult = ResponseEntity.status(HttpStatus.CREATED).body(question);
         when(questionService.createQuestion(question)).thenReturn(question);
         ResponseEntity<Question> actualResult = questionController.createQuestion(question);
@@ -50,8 +51,8 @@ public class ControllerTest {
     @Test
     void testGetAllQuestion(){
         List<Question> question = new ArrayList();
-        question.add(new Question(1, "In Spring Boot @RestController annotation is equivalent to", "@Controller and @PostMapping", "@Controller and @Component", "@Controller and @ResponseBody", "@Controller and @ResponseStatus","@Controller and @ResponseBody","3", "-1", null));
-        question.add(new Question(2, "Which of this is not a keyword", "final", "static", "null", "this","null","3", "-1", null));
+        question.add(new Question(1, "In Spring Boot @RestController annotation is equivalent to", "@Controller and @PostMapping", "@Controller and @Component", "@Controller and @ResponseBody", "@Controller and @ResponseStatus","@Controller and @ResponseBody","3", "-1",new Subcategory(1, "Exception Handling", "Exception Handling Form in java", new Category(1, "Java", "Core java Category"))));
+        question.add(new Question(1, "In Spring Boot @RestController annotation is equivalent to", "@Controller and @PostMapping", "@Controller and @Component", "@Controller and @ResponseBody", "@Controller and @ResponseStatus","@Controller and @ResponseBody","3", "-1",new Subcategory(1, "Exception Handling", "Exception Handling Form in java", new Category(1, "Java", "Core java Category"))));
         ResponseEntity<List<Question>> expectedResult = ResponseEntity.status(HttpStatus.FOUND).body(question);
         when(questionService.getAllQuestion()).thenReturn(question);
         ResponseEntity<List<Question>> actualResult = questionController.getAllQuestion();
@@ -61,7 +62,7 @@ public class ControllerTest {
 
     @Test
     void testGetById(){
-        Optional<Question> question = Optional.of(new Question(1, "In Spring Boot @RestController annotation is equivalent to", "@Controller and @PostMapping", "@Controller and @Component", "@Controller and @ResponseBody", "@Controller and @ResponseStatus","@Controller and @ResponseBody","3", "-1", null));
+        Optional<Question> question = Optional.of(new Question(1, "In Spring Boot @RestController annotation is equivalent to", "@Controller and @PostMapping", "@Controller and @Component", "@Controller and @ResponseBody", "@Controller and @ResponseStatus","@Controller and @ResponseBody","3", "-1",new Subcategory(1, "Exception Handling", "Exception Handling Form in java", new Category(1, "Java", "Core java Category"))));
         ResponseEntity<Optional<Question>> expectedResult = ResponseEntity.status(HttpStatus.FOUND).body(question);
         when(questionService.getQuestionById(1)).thenReturn(question);
         ResponseEntity<Optional<Question>> actualResult = questionController.getQuestionById(1);
@@ -71,12 +72,10 @@ public class ControllerTest {
 
     @Test
     void testUpdateQuestion(){
-        Question question = new Question(1, "In Spring Boot @RestController annotation is equivalent to", "@Controller and @PostMapping", "@Controller and @Component", "@Controller and @ResponseBody", "@Controller and @ResponseStatus","@Controller and @ResponseBody","3", "-1",null);
-        ResponseEntity <Question> expectedResult = ResponseEntity.status(HttpStatus.ACCEPTED).body(question);
-        when(questionService.updateQuestion(any(Question.class))).thenReturn(question);
-        ResponseEntity <Question> actualResult = questionController.updateQuestion(1, "Java", "Which of this is not a keyword", "final", "static", "null", "this","null");
-        assertEquals(expectedResult.getStatusCode(), actualResult.getStatusCode());
-        assertEquals(expectedResult.getBody(), actualResult.getBody());
+        Question question = new Question(1, "In Spring Boot @RestController annotation is equivalent to", "@Controller and @PostMapping", "@Controller and @Component", "@Controller and @ResponseBody", "@Controller and @ResponseStatus","@Controller and @ResponseBody","3", "-1",new Subcategory(1, "Exception Handling", "Exception Handling Form in java", new Category(1, "Java", "Core java Category")));
+        when(questionService.updateQuestion(1, question)).thenReturn(question);
+        Question actualResult = questionController.updateQuestion(1, question);
+        assertEquals(question, actualResult);
     }
 
     @Test
@@ -85,7 +84,6 @@ public class ControllerTest {
         verify(questionService).deleteQuestion(3);
         assertEquals(HttpStatus.OK, expectedResult.getStatusCode());
         assertEquals("Deleted the question with id : 3", expectedResult.getBody());
-
     }
     
 }

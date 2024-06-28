@@ -27,12 +27,26 @@ public class QuestionService {
       return questionRepository.findById(id);
     }
 
-    public Question updateQuestion(Question question){
-        return questionRepository.save(question);
-    }
-
     public void deleteQuestion(int id){
         questionRepository.deleteById(id);
+    }
+
+    public Question updateQuestion(Integer id, Question updateQuestion){
+        Optional<Question> existinqQuestion = questionRepository.findById(id);
+        if(existinqQuestion.isPresent()){
+            Question question = existinqQuestion.get();
+            question.setQuestion(updateQuestion.getQuestion());
+            question.setOption_one(updateQuestion.getOption_one());
+            question.setOption_two(updateQuestion.getOption_two());
+            question.setOption_three(updateQuestion.getOption_three());
+            question.setOption_four(updateQuestion.getOption_four());
+            question.setCorrect_option(updateQuestion.getCorrect_option());
+            question.setPositive_mark(updateQuestion.getPositive_mark());
+            question.setNegative_mark(updateQuestion.getNegative_mark());
+            question.setSubcategory(updateQuestion.getSubcategory());
+            return questionRepository.save(question);
+        }
+        else return null;
     }
     
 }
