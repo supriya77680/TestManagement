@@ -39,9 +39,9 @@ private SubcategoryService subcategoryService;
     }
 
    @PutMapping("/updateSubcategory/{id}")
-    public ResponseEntity<Subcategory> updateCategory(@PathVariable int id, @RequestParam String subcategory_name, @RequestParam String subcategory_description, @RequestParam(required = false) Integer category_id, @RequestBody(required = false) Category category){
+    public ResponseEntity<Subcategory> updateSubcategory(@PathVariable int id, @RequestParam String subcategory_name, @RequestParam String subcategory_description, @RequestParam(required = false) Integer category_id, @RequestBody(required = false) Category category){
         Subcategory subcategory = new Subcategory(id, subcategory_name, subcategory_description, new Category(id, subcategory_name, subcategory_description));
-        Subcategory updatedCategory = subcategoryService.updateCategory(subcategory);
+        Subcategory updatedCategory = subcategoryService.updateSubcategory(subcategory);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(updatedCategory);
     } 
 

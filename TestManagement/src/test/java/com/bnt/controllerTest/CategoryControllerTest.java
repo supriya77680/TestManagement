@@ -48,7 +48,7 @@ public class CategoryControllerTest {
     }
 
     @Test
-    void testGetAllcategory(){
+    void testGetAllCategory(){
         List<Category> category = new ArrayList();
         category.add(new Category(1, "Java", "Java Framework Category"));
         category.add(new Category(1, "Java", "Java Framework Category"));
@@ -70,7 +70,7 @@ public class CategoryControllerTest {
     }
 
     @Test
-    void testDeletecategory(){
+    void testDeleteCategory(){
         ResponseEntity<String> expectedResult = categoryController.deleteCategory(3);
         verify(categoryService).deleteCategory(3);
         assertEquals(HttpStatus.OK, expectedResult.getStatusCode());

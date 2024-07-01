@@ -22,7 +22,7 @@ public class SubcategoryService {
         subcategoryRepository.deleteById(id);
     }
 
-    public Subcategory updateCategory(Subcategory category) {
+    public Subcategory updateSubcategory(Subcategory category) {
         return subcategoryRepository.save(category);
     }
 
