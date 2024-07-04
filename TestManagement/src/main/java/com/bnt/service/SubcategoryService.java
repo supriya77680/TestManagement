@@ -29,7 +29,4 @@ public class SubcategoryService {
     public List<Subcategory> getSubcategory() {
         return subcategoryRepository.findAll();
     }
-
-    
-    
 }
