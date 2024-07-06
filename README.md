@@ -49,10 +49,16 @@ Make sure you have the following installed:
 - PostgreSQL
 
 ### Clone the Repository
-Clone the TestManagement repository from GitHub:
-- git clone <repository_url>
-- cd TestManagement
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/supriya77680/TestManagement.git
+    ```
 
+2. Navigate to the project directory:
+    ```bash
+    cd TestManagement
+    ```
+ 
 ## Database Configuration
 
 ### Create Database
