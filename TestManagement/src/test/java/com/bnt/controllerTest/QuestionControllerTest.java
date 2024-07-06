@@ -1,7 +1,6 @@
 package com.bnt.controllerTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -23,7 +22,7 @@ import com.bnt.model.Category;
 import com.bnt.model.Question;
 import com.bnt.model.Subcategory;
 import com.bnt.repository.QuestionRepository;
-import com.bnt.service.QuestionService;
+import com.bnt.service.serviceImpl.QuestionServiceImpl;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
@@ -33,7 +32,7 @@ public class QuestionControllerTest {
     QuestionRepository questionRepository;
 
     @Mock
-    QuestionService questionService;
+    QuestionServiceImpl questionService;
 
     @InjectMocks
     QuestionController questionController;

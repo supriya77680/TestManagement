@@ -18,42 +18,50 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bnt.model.Question;
-import com.bnt.service.QuestionService;
+import com.bnt.service.serviceImpl.QuestionServiceImpl;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
-@RequestMapping("/mcq")
+@RequestMapping("api/question")
 public class QuestionController {
 
     @Autowired
-    private QuestionService questionService;
+    private QuestionServiceImpl questionService;
 
-    @PostMapping("/createQuestion")
+    @PostMapping()
     public ResponseEntity<Question> createQuestion(@RequestBody Question question){
+        log.info("Question is to be created");
         Question createQuestion = questionService.createQuestion(question);
         return ResponseEntity.status(HttpStatus.CREATED).body(createQuestion);
     }
 
-    @GetMapping("/getAllQuestion")
+    @GetMapping()
     public ResponseEntity<List<Question>> getAllQuestion(){
+        log.info("All question are to be retrieved");
         List<Question> getAllQuestion = questionService.getAllQuestion();
         return ResponseEntity.status(HttpStatus.FOUND).body(getAllQuestion);
     }
 
-    @GetMapping("/getQuestion/{id}")
-    public ResponseEntity <Optional<Question>> getQuestionById(@PathVariable int id){
-        Optional<Question> getQuestionById = questionService.getQuestionById(id);
+    @GetMapping("/{id}")
+    public ResponseEntity <Optional<Question>> getQuestionById(@PathVariable("id") int questionId){
+        log.info("Question of id {} is retrived", questionId);
+        Optional<Question> getQuestionById = questionService.getQuestionById(questionId);
         return ResponseEntity.status(HttpStatus.FOUND).body(getQuestionById);
     }
 
-    @PutMapping("/updateQuestion/{id}")
-    public Question updateQuestion(@PathVariable("id") int id,@RequestBody Question question){
-        return questionService.updateQuestion(id, question);
+    @PutMapping("/{id}")
+    public Question updateQuestion(@PathVariable("id") int questionId,@RequestBody Question question){
+        log.info("Question of id{} is to be updated", questionId);
+        return questionService.updateQuestion(questionId, question);
     }
 
-    @DeleteMapping("/deleteQuestion/{id}")
-    public ResponseEntity<String> deleteQuestion(@PathVariable int id){
-        questionService.deleteQuestion(id);
-        return ResponseEntity.ok("Deleted the question with id : " + id);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteQuestion(@PathVariable("id") int questionId){
+        log.info("Question of id{} is to be deleted", questionId);
+        questionService.deleteQuestion(questionId);
+        return ResponseEntity.ok("Deleted the question with id : " + questionId);
     }
 
     @PostMapping("/upload")

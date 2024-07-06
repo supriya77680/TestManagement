@@ -19,7 +19,7 @@ import com.bnt.model.Category;
 import com.bnt.model.Question;
 import com.bnt.model.Subcategory;
 import com.bnt.repository.QuestionRepository;
-import com.bnt.service.QuestionService;
+import com.bnt.service.serviceImpl.QuestionServiceImpl;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
@@ -29,7 +29,7 @@ public class QuestionServiceTest {
     QuestionRepository questionRepository;
 
     @InjectMocks
-    QuestionService questionService;
+    QuestionServiceImpl questionService;
 
     @Test
     void testCreateQuestion(){
@@ -59,10 +59,15 @@ public class QuestionServiceTest {
 
     @Test
     void testUpdateQuestion() {
-        Question expectedResult = new Question(1, "In Spring Boot @RestController annotation is equivalent to", "@Controller and @PostMapping","@Controller and @Component","@Controller and @ResponseBody","@Controller and @ResponseStatus","@Controller and @ResponseBody","3","-1",new Subcategory(1, "Exception Handling", "Exception Handling Form in java", new Category(1, "Java", "Core java Category")));
-        when(questionRepository.save((expectedResult))).thenReturn(expectedResult);
-        Question actualResult = questionService.updateQuestion(1, expectedResult);
-        assertEquals(expectedResult, actualResult);
+        int questionId = 1;
+        Question existingQuestion = new Question(questionId, "Original Question", "Option 1", "Option 2", "Option 3", "Option 4", "Correct Option", "1", "-1", new Subcategory(1, "Subcategory Name", "Subcategory Description", new Category(1, "Category Name", "Category Description")));
+        Question updatedQuestion = new Question(questionId, "Updated Question", "Updated Option 1", "Updated Option 2", "Updated Option 3", "Updated Option 4", "Updated Correct Option", "2", "-2", new Subcategory(1, "Subcategory Name", "Subcategory Description", new Category(1, "Category Name", "Category Description")));
+        when(questionRepository.findById(questionId)).thenReturn(Optional.of(existingQuestion));
+        when(questionRepository.save(existingQuestion)).thenReturn(updatedQuestion);
+        Question actualResult = questionService.updateQuestion(questionId, updatedQuestion);
+        assertEquals(updatedQuestion, actualResult);
+        verify(questionRepository).findById(questionId);
+        verify(questionRepository).save(existingQuestion);
     }
 
     @Test

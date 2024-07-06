@@ -2,6 +2,8 @@ package com.bnt.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,37 +18,43 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bnt.model.Category;
-import com.bnt.service.CategoryService;
+import com.bnt.service.serviceImpl.CategoryServiceImpl;
 
 @RestController
-@RequestMapping("/category")
+@RequestMapping("/api/category")
 public class CategoryController {
 
-    @Autowired
-    private CategoryService categoryService;
+    private static final Logger logger = LoggerFactory.getLogger(CategoryController.class);
 
-    @PostMapping("/createCategory")
+    @Autowired
+    private CategoryServiceImpl categoryService;
+
+    @PostMapping()
     public ResponseEntity<Category> createCategory(@RequestBody Category category){
+        logger.info("Category create request is received");
         Category createCategory = categoryService.createCategory(category);
         return ResponseEntity.status(HttpStatus.CREATED).body(createCategory);
     }
 
-    @GetMapping("/getCategory")
+    @GetMapping()
     public ResponseEntity<List<Category>> getCategory(){
+        logger.info("List of all category is to be retrieved");
         List<Category> getCategory = categoryService.getCategory();
         return ResponseEntity.status(HttpStatus.FOUND).body(getCategory);
     }
 
-    @PutMapping("/updateCategory/{id}")
-    public ResponseEntity<Category> updateCategory(@PathVariable int id, @RequestParam String category_name, @RequestParam String category_description ){
-        Category category = new Category(id, category_name, category_description);
+    @PutMapping("/{categoryId}")
+    public ResponseEntity<Category> updateCategory(@PathVariable int categoryId, @RequestParam String categoryName, @RequestParam String categoryDescription ){
+        logger.info("Category with id {} is to be updated", categoryId);
+        Category category = new Category(categoryId, categoryName, categoryDescription);
         Category updatedCategory = categoryService.updateCategory(category);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(updatedCategory);
     } 
     
-    @DeleteMapping("/deleteCategory/{id}")
-    public ResponseEntity<String> deleteCategory(@PathVariable int id){
-        categoryService.deleteCategory(id);
-        return ResponseEntity.ok("Deleted category with id : " + id);
+    @DeleteMapping("/{categoryId}")
+    public ResponseEntity<String> deleteCategory(@PathVariable int categoryId){
+        logger.info("Category with id {} is to be deleted", categoryId);
+        categoryService.deleteCategory(categoryId);
+        return ResponseEntity.ok("Deleted category with id : " + categoryId);
     }
 }

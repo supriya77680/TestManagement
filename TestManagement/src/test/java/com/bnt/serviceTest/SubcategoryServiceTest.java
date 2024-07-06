@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,7 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.bnt.model.Category;
 import com.bnt.model.Subcategory;
 import com.bnt.repository.SubcategoryRepository;
-import com.bnt.service.SubcategoryService;
+import com.bnt.service.serviceImpl.SubcategoryServiceImpl;
 
 
 @SpringBootTest
@@ -28,7 +29,7 @@ public class SubcategoryServiceTest {
     SubcategoryRepository subcategoryRepository;
 
     @InjectMocks
-    SubcategoryService subcategoryService;
+    SubcategoryServiceImpl subcategoryService;
 
      @Test
     void testCreatecategory(){
@@ -49,12 +50,17 @@ public class SubcategoryServiceTest {
     }
 
     @Test
-    void testUpdateCategory(){
-        Subcategory expectedResult = new Subcategory(1, "Annotation", "Annotation in Spring", new Category(1, "Springboot", "Springboot Framework"));
-        when(subcategoryRepository.save(expectedResult)).thenReturn(expectedResult);
-        Subcategory actualResult = subcategoryService.updateSubcategory(expectedResult);
-        assertEquals(expectedResult, actualResult);
+    void testUpdateSubcategory_SuccessfulUpdate() {
+        Subcategory existingSubcategory = new Subcategory(1, "Annotation", "Annotation in Spring", new Category(1, "Springboot", "Springboot Framework"));
+        Subcategory updatedSubcategory = new Subcategory(1, "Updated Annotation", "Updated Annotation in Spring", new Category(1, "Springboot", "Springboot Framework"));
+        when(subcategoryRepository.findById(1)).thenReturn(Optional.of(existingSubcategory));
+        when(subcategoryRepository.save(updatedSubcategory)).thenReturn(updatedSubcategory);
+        Subcategory actualResult = subcategoryService.updateSubcategory(1, updatedSubcategory);
+        assertEquals(updatedSubcategory, actualResult);
+        verify(subcategoryRepository).findById(1);
+        verify(subcategoryRepository).save(updatedSubcategory); // Verify save with updatedSubcategory
     }
+
 
     @Test
     void testDeleteCategory(){

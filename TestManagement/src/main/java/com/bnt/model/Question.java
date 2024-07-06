@@ -1,6 +1,7 @@
 package com.bnt.model;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,27 +13,45 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
+
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 @Entity
 @Table(name = "mcq_question")
 public class Question {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int question_id;
+    @Column(name = "question_id")
+    private int questionID;
+
+    @Column(name = "question")
     private String question;
-    private String option_one;
-    private String option_two;
-    private String option_three;
-    private String option_four;
-    private String correct_option;
-    private String positive_mark;
-    private String negative_mark;
+
+    @Column(name = "option_one")
+    private String optionOne;
+
+    @Column(name = "option_two")
+    private String optionTwo;
+
+    @Column(name = "option_three")
+    private String optionThree;
+
+    @Column(name = "option_four")
+    private String optionFour;
+
+    @Column(name = "correct_option")
+    private String correctOption;
+
+    @Column(name = "positive_mark")
+    private String positiveMark;
+
+    @Column(name = "negative_mark")
+    private String negativeMark;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "subcategory_id")
     private Subcategory subcategory;
-    
+
 }

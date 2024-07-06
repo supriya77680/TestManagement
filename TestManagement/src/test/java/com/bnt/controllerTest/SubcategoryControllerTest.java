@@ -20,14 +20,14 @@ import com.bnt.controller.SubcategoryController;
 import com.bnt.model.Category;
 import com.bnt.model.Subcategory;
 import com.bnt.repository.SubcategoryRepository;
-import com.bnt.service.SubcategoryService;
+import com.bnt.service.serviceImpl.SubcategoryServiceImpl;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
 public class SubcategoryControllerTest {
     
     @Mock
-    SubcategoryService subcategoryService;
+    SubcategoryServiceImpl subcategoryService;
 
     @Mock
     SubcategoryRepository subcategoryRepository;
@@ -57,14 +57,14 @@ public class SubcategoryControllerTest {
         assertEquals(expectedResult.getBody(), actualResult.getBody());
     }
 
-     @Test
-    void testUpdateSubcategory(){
-        Subcategory subcategory =new Subcategory(1, "Annotation", "Annotation in Spring", new Category(1, "Springboot", "Springboot Framework"));
-        ResponseEntity <Subcategory> expectedResult = ResponseEntity.status(HttpStatus.ACCEPTED).body(subcategory);
-        when(subcategoryService.updateSubcategory(subcategory)).thenReturn(subcategory);
-        ResponseEntity <Subcategory> actualResult = subcategoryController.updateSubcategory(1, "Annotation", "Annotation in Spring",1, new Category(1, "Springboot", "Springboot Framework"));
-        assertEquals(expectedResult.getStatusCode(), actualResult.getStatusCode());
-        assertEquals(expectedResult.getBody(), actualResult.getBody());
+    @Test
+    void testUpdateSubcategory() {
+        int subcategoryId = 1;
+        Subcategory updatedSubcategory = new Subcategory(subcategoryId, "Updated Annotation", "Updated Annotation in Spring", new Category(1, "Springboot", "Springboot Framework"));
+        when(subcategoryService.updateSubcategory(subcategoryId, updatedSubcategory)).thenReturn(updatedSubcategory);
+        ResponseEntity<Subcategory> actualaresult = subcategoryController.updateSubCategory(subcategoryId, updatedSubcategory);
+        assertEquals(HttpStatus.ACCEPTED, actualaresult.getStatusCode());
+        assertEquals(updatedSubcategory, actualaresult.getBody());
     }
 
     @Test

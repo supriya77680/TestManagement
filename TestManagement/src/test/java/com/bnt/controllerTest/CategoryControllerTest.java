@@ -2,13 +2,11 @@ package com.bnt.controllerTest;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,14 +20,14 @@ import org.springframework.http.ResponseEntity;
 import com.bnt.controller.CategoryController;
 import com.bnt.model.Category;
 import com.bnt.repository.CategoryRepository;
-import com.bnt.service.CategoryService;
+import com.bnt.service.serviceImpl.CategoryServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
 public class CategoryControllerTest {
 
     @Mock
-    CategoryService categoryService;
+    CategoryServiceImpl categoryService;
 
     @Mock
     CategoryRepository categoryRepository;

@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.bnt.model.Category;
 import com.bnt.repository.CategoryRepository;
-import com.bnt.service.CategoryService;
+import com.bnt.service.serviceImpl.CategoryServiceImpl;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
@@ -26,7 +27,7 @@ public class CategoryServiceTest {
     CategoryRepository categoryRepository;
 
     @InjectMocks
-    CategoryService categoryService;
+    CategoryServiceImpl categoryService;
 
      @Test
     void testCreatecategory(){
@@ -47,18 +48,23 @@ public class CategoryServiceTest {
     }
 
     @Test
-    void testUpdateCategory(){
-        Category expectedResult = new Category(1, "Java", "Java Framework Category");
-        when(categoryRepository.save(expectedResult)).thenReturn(expectedResult);
-        Category actualResult = categoryService.updateCategory(expectedResult);
-        assertEquals(expectedResult, actualResult);
+    void testUpdateCategory() {
+        Category existingCategory = new Category(1, "Java", "Java Framework Category");
+        Category updatedCategory = new Category(1, "Updated Java", "Updated Java Framework Category");
+        when(categoryRepository.findById(1)).thenReturn(Optional.of(existingCategory));
+        when(categoryRepository.save(existingCategory)).thenReturn(updatedCategory);
+        Category actualResult = categoryService.updateCategory(existingCategory);
+        assertEquals(updatedCategory, actualResult);
+        verify(categoryRepository).findById(1);
+        verify(categoryRepository).save(existingCategory);
     }
 
     @Test
-    void testDeleteCategory(){
-        categoryService.deleteCategory(1);
-        verify(categoryRepository).deleteById(1);
+    void testDeleteCategory() {
+        int categoryId = 1;
+        when(categoryRepository.findById(categoryId)).thenReturn(Optional.of(new Category(categoryId, "Java", "Java Framework Category")));
+        categoryService.deleteCategory(categoryId);
+        verify(categoryRepository).deleteById(categoryId);
     }
-    
     
 }
