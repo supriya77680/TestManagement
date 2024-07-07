@@ -4,32 +4,6 @@
 ## Purpose of the project
 TestManagement is a Spring Boot application for managing multiple-choice questions via REST API.
 
-## Table of Contents
-- [Introduction](#introduction)
-- [Technologies Used](#technologies-used)
-- [Setup Instructions](#setup-instructions)
-  - [Prerequisites](#prerequisites)
-  - [Clone the Repository](#clone-the-repository)
-  - [Database Configuration](#database-configuration)
-  - [Run the Application](#run-the-application)
-- [API Endpoints](#api-endpoints)
-- [MCQ-Question](#api-endpoints)
-  - [Create MCQ Question](#create-mcq-question)
-  - [Read All Questions](#read-all-questions)
-  - [Read Specific Question](#read-specific-question)
-  - [Update Question](#update-question)
-  - [Delete Question](#delete-question)
-- [Category and Subcategory Operations](#category-and-subcategory-operations)
-   - [Create Category](#create-category)
-   - [Read All Categories](#read-all-categories)
-   - [Update Category](#update-category)
-   - [Delete Category](#delete-category)
-   - [Create Subcategory](#create-subcategory)
-   - [Read All Subcategories](#read-all-subcategories)
-   - [Update Subcategory](#update-subcategory)
-   - [Delete Subcategory](#delete-subcategory)
-
-
 ## Introduction
 This project, TestManagement, is designed to facilitate the management of multiple-choice questions (MCQs) through a RESTful API. It allows users to perform CRUD operations on MCQ questions stored in a PostgreSQL database. Each question includes details such as category, options, correct answer, and scoring.
 
@@ -58,6 +32,21 @@ Make sure you have the following installed:
     ```bash
     cd TestManagement
     ```
+
+3. Checkout to main branch
+   ```bash
+   git checkout main
+   ```
+
+4. Build the application
+   ```bash
+   ./gradlew clean build
+   ```
+
+5. Run application
+   ```bash
+   ./gradlew bootRun
+   ```
  
 ## Database Configuration
 
@@ -74,14 +63,6 @@ spring.datasource.url=jdbc:postgresql://localhost:5432/TestManagementDB
 spring.datasource.username=your_username
 spring.datasource.password=your_password
 spring.jpa.hibernate.ddl-auto=update
-```
-
-## Setup Instructions
-
-### Run the Application
-To start the application, navigate to the root directory of the project and run:
-```bash
-gradle bootRun
 ```
 
 ## API Endpoints
@@ -146,7 +127,7 @@ Delete an existing MCQ question identified by `questionId`.
 **POST** `(http://localhost:8080/api/question/upload)`
 
 Create a new MCQ question using excel file. That means we can enter question in database using excel sheet provided
-
+            
 
 # Category and Subcategory Operations
 
@@ -157,6 +138,15 @@ Create a new MCQ question using excel file. That means we can enter question in 
 **POST** `http://localhost:8080/api/category`
 
 Create a new category using JSON payload in the request body.
+
+#### Example Request Body:
+
+```json
+{
+    "categoryName": "Spring Core",
+    "categoryDescription": "Spring Core category"
+}
+```
 
 ### Read All Categories
 
@@ -183,6 +173,19 @@ Delete an existing category identified by categoryId.
 **POST** `http://localhost:8080/api/subcategory`
 
 Create a new subcategory using JSON payload in the request body.
+
+#### Example Request Body:
+
+```json
+{
+    "subcategoryName":"Annotations",
+    "subcategoryDescription":"Annotation category",
+    "category":{
+    "categoryName": "Spring Core",
+   "categoryDescription": "Springboot Framework category"
+    }
+}
+```
 
 ### Read All Subcategories
 
