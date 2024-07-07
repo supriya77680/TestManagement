@@ -28,14 +28,14 @@ public class SubcategoryController {
 @Autowired
 private SubcategoryServiceImpl subcategoryService;
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<Subcategory> createSubcategory(@RequestBody Subcategory subcategory){
         logger.info("Creating subcategory in database");
         Subcategory createSubcategory = subcategoryService.createSubcategory(subcategory);
         return ResponseEntity.status(HttpStatus.CREATED).body(createSubcategory);  
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<Subcategory>> getSubcategory(){
         logger.info("List of all subcategory to be received");
         List<Subcategory> getSubcategory = subcategoryService.getSubcategory();

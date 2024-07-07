@@ -23,14 +23,13 @@ import com.bnt.repository.CategoryRepository;
 public class SubcategoryServiceImpl implements SubcategoryService{
 
     @Autowired
-    SubcategoryRepository subcategoryRepository;
+    private SubcategoryRepository subcategoryRepository;
 
     @Autowired
-    CategoryRepository categoryRepository;
+    private CategoryRepository categoryRepository;
 
     @Override
     public Subcategory createSubcategory(Subcategory subcategory) {
-        log.info("Subcategory is created");
         String subcategoryName = subcategory.getSubcategoryName();
         List<Subcategory> existingSubcategories = subcategoryRepository.findByName(subcategoryName);
         if(!existingSubcategories.isEmpty()){
@@ -40,13 +39,14 @@ public class SubcategoryServiceImpl implements SubcategoryService{
         Optional<Category> optionalCategory = categoryRepository.findByCategoryName(categoryName);
         Category category = optionalCategory.orElseThrow(() -> new CategoryNotFoundException("Category '" + categoryName + "' is not present"));
         subcategory.setCategory(category);
+        log.info("Subcategory is created");
         return subcategoryRepository.save(subcategory);
     }    
 
     @Override
     public List<Subcategory> getSubcategory() {
-        log.info("All subcategory retrieved");
         try{
+            log.info("All subcategory retrieved");
             return subcategoryRepository.findAll();
         }catch(Exception ex){
             throw new SubcategoryNotFoundException("Subcategory table is empty");
@@ -55,8 +55,6 @@ public class SubcategoryServiceImpl implements SubcategoryService{
     
     @Override
     public Subcategory updateSubcategory(int subcategoryId, Subcategory subcategory) {
-        log.info("Updating subcategory with id: {}", subcategoryId);
-
         Optional<Subcategory> optionalSubcategory = subcategoryRepository.findById(subcategoryId);
         if (optionalSubcategory.isEmpty()) {
             String message = "Subcategory with id " + subcategoryId + " is not present in database";
@@ -70,17 +68,18 @@ public class SubcategoryServiceImpl implements SubcategoryService{
         existingSubcategory.setSubcategoryDescription(subcategory.getSubcategoryDescription());
         existingSubcategory.setCategory(existingSubcategory.getCategory());
 
+        log.info("Updating subcategory with id: {}", subcategoryId);
         return subcategoryRepository.save(existingSubcategory);
         
     } 
 
     @Override
     public void deleteSubcategory(int subcategoryId) {
-        log.info("Subcategory deleted with id{}", subcategoryId);
         Optional<Subcategory> existingSubcategory= subcategoryRepository.findById(subcategoryId);
         if(!existingSubcategory.isPresent()){
             throw new SubcategoryNotFoundException("Subcategory not found with id : " + subcategoryId);
         }
+        log.info("Subcategory deleted with id{}", subcategoryId);
         subcategoryRepository.deleteById(subcategoryId);
     }
 }

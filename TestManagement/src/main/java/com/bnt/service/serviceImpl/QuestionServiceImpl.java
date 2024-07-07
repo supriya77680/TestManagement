@@ -43,7 +43,6 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public Question createQuestion(Question question) {
-        log.info("QUestion is created");
         String questions = question.getQuestion();
         List<Question> existingQuestions = questionRepository.findByName(questions);
         if (!existingQuestions.isEmpty()) {
@@ -60,23 +59,25 @@ public class QuestionServiceImpl implements QuestionService {
         Category category = optionalCategory.orElseThrow(() -> new CategoryNotFoundException("Category '" + categoryName + "' is not present"));
         subcategory.setCategory(category);
 
+        log.info("Question is created");
         return questionRepository.save(question);   
     }
 
     @Override
     public List<Question> getAllQuestion() {
-        log.info("All list of question is retrieved");
         try {
+            log.info("All list of question is retrieved");
             return questionRepository.findAll();
         } catch (Exception ex) {
             throw new QuestionNotFoundException("Question table is empty");
-        }   
+        }  
+         
     }
 
     @Override
     public Optional<Question> getQuestionById(int questionId){
-        log.info("Question with id{} is retrieved" + questionId);
         try {
+            log.info("Question with id{} is retrieved" + questionId);
             return questionRepository.findById(questionId);
         } catch (Exception ex) {
             throw new QuestionNotFoundException("Question of id " + questionId + " not found");
@@ -85,17 +86,16 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public void deleteQuestion(int questionId){
-        log.info("Questio with id{} is deleted", questionId);
         Optional<Question> existingQuestion= questionRepository.findById(questionId);
         if(!existingQuestion.isPresent()){
             throw new QuestionNotFoundException("Question not found with id : " + questionId);
         }
+        log.info("Questio with id{} is deleted", questionId);
         questionRepository.deleteById(questionId);
     }
 
     @Override
     public Question updateQuestion(Integer questionId, Question updateQuestion){
-        log.info("Question with id{} is updated", questionId);
         Optional<Question> existinqQuestion = questionRepository.findById(questionId);
         if(existinqQuestion.isPresent()){
             Question question = existinqQuestion.get();
@@ -108,6 +108,7 @@ public class QuestionServiceImpl implements QuestionService {
             question.setPositiveMark(updateQuestion.getPositiveMark());
             question.setNegativeMark(updateQuestion.getNegativeMark());
             question.setSubcategory(updateQuestion.getSubcategory());
+            log.info("Question with id{} is updated", questionId);
             return questionRepository.save(question);
         }
         else {

@@ -30,14 +30,14 @@ public class QuestionController {
     @Autowired
     private QuestionServiceImpl questionService;
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<Question> createQuestion(@RequestBody Question question){
         log.info("Question is to be created");
         Question createQuestion = questionService.createQuestion(question);
         return ResponseEntity.status(HttpStatus.CREATED).body(createQuestion);
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<Question>> getAllQuestion(){
         log.info("All question are to be retrieved");
         List<Question> getAllQuestion = questionService.getAllQuestion();

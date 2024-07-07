@@ -29,14 +29,14 @@ public class CategoryController {
     @Autowired
     private CategoryServiceImpl categoryService;
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<Category> createCategory(@RequestBody Category category){
         logger.info("Category create request is received");
         Category createCategory = categoryService.createCategory(category);
         return ResponseEntity.status(HttpStatus.CREATED).body(createCategory);
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<Category>> getCategory(){
         logger.info("List of all category is to be retrieved");
         List<Category> getCategory = categoryService.getCategory();

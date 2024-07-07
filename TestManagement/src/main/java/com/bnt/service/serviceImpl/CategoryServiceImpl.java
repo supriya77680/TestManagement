@@ -23,19 +23,19 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category createCategory(Category category) {
-        log.info("Category is created");
         String categoryName = category.getCategoryName();
         List<Category> existingCategories = categoryRepository.findByName(categoryName);
         if (!existingCategories.isEmpty()) {
             throw new CategoryAlreadyPresentException("Category with name " + categoryName + " is already present");
         }
+        log.info("Category is created");
         return categoryRepository.save(category);
     }
 
     @Override
     public List<Category> getCategory() {
-        log.info("All category are retrieved");
         try{
+            log.info("All category are retrieved");
             return categoryRepository.findAll();
         }catch(Exception ex){
             throw new CategoryNotFoundException("Category table is empty");
@@ -44,21 +44,21 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category updateCategory(Category category) {
-        log.info("Category is updated");
         Optional<Category> existingCategory = categoryRepository.findById(category.getCategoryId());
         if (!existingCategory.isPresent()) {
             throw new CategoryNotFoundException("Category not found with id : " + category.getCategoryId());
         }
+        log.info("Category is updated");
         return categoryRepository.save(category);
     }
 
     @Override
     public void deleteCategory(int categoryId) {
-        log.info("Category with id{} is deleted", categoryId);
         Optional<Category> existingCategory = categoryRepository.findById(categoryId);
         if (!existingCategory.isPresent()) {
             throw new CategoryNotFoundException("Category not found with id : " + categoryId);
         }
+        log.info("Category with id{} is deleted", categoryId);
         categoryRepository.deleteById(categoryId);
     }
 }
