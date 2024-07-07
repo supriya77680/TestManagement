@@ -1,33 +1,8 @@
 # TestManagement
 
+
+## Purpose of the project
 TestManagement is a Spring Boot application for managing multiple-choice questions via REST API.
-
-## Table of Contents
-- [Introduction](#introduction)
-- [Technologies Used](#technologies-used)
-- [Setup Instructions](#setup-instructions)
-  - [Prerequisites](#prerequisites)
-  - [Clone the Repository](#clone-the-repository)
-  - [Database Configuration](#database-configuration)
-  - [Run the Application](#run-the-application)
-- [API Endpoints](#api-endpoints)
-  - [Create MCQ Question](#create-mcq-question)
-  - [Read All Questions](#read-all-questions)
-  - [Read Specific Question](#read-specific-question)
-  - [Update Question](#update-question)
-  - [Delete Question](#delete-question)
-- [Category and Subcategory Operations](#category-and-subcategory-operations)
-    - [Category CRUD Operations](#category-crud-operations)
-      - [Create Category](#create-category)
-      - [Read All Categories](#read-all-categories)
-      - [Update Category](#update-category)
-      - [Delete Category](#delete-category)
-    - [Subcategory CRUD Operations](#subcategory-crud-operations)
-      - [Create Subcategory](#create-subcategory)
-      - [Read All Subcategories](#read-all-subcategories)
-      - [Update Subcategory](#update-subcategory)
-      - [Delete Subcategory](#delete-subcategory)
-
 
 ## Introduction
 This project, TestManagement, is designed to facilitate the management of multiple-choice questions (MCQs) through a RESTful API. It allows users to perform CRUD operations on MCQ questions stored in a PostgreSQL database. Each question includes details such as category, options, correct answer, and scoring.
@@ -48,10 +23,31 @@ Make sure you have the following installed:
 - PostgreSQL
 
 ### Clone the Repository
-Clone the TestManagement repository from GitHub:
-- git clone <repository_url>
-- cd TestManagement
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/supriya77680/TestManagement.git
+    ```
 
+2. Navigate to the project directory:
+    ```bash
+    cd TestManagement
+    ```
+
+3. Checkout to main branch
+   ```bash
+   git checkout main
+   ```
+
+4. Build the application
+   ```bash
+   ./gradlew clean build
+   ```
+
+5. Run application
+   ```bash
+   ./gradlew bootRun
+   ```
+ 
 ## Database Configuration
 
 ### Create Database
@@ -69,19 +65,11 @@ spring.datasource.password=your_password
 spring.jpa.hibernate.ddl-auto=update
 ```
 
-## Setup Instructions
-
-### Run the Application
-To start the application, navigate to the root directory of the project and run:
-```bash
-mvn spring-boot:run
-```
-
 ## API Endpoints
 
 ### Create MCQ Question
 
-**POST** `(http://localhost:8080/mcq/createQuestion)`
+**POST** `(http://localhost:8080/api/question)`
 
 Create a new MCQ question using JSON payload in the request body.
 
@@ -112,28 +100,34 @@ Create a new MCQ question using JSON payload in the request body.
 
 ### Read All Questions
 
-**GET** `(http://localhost:8080/mcq/getAllQuestion)`
+**GET** `(http://localhost:8080/api/question)`
 
 Retrieve all MCQ questions stored in the database.
 
 ### Read Specific Question
 
-**GET** `(http://localhost:8080/mcq/getQuestion/3)`
+**GET** `(http://localhost:8080/api/question/{id})`
 
 Retrieve a specific MCQ question by its `questionId`.
 
 ### Update Question
 
-**PUT** `(http://localhost:8080/mcq/updateQuestion/3?category=Core Java&question=Which access modifier cannot access other than its own class&option_one=public&option_two=default&option_three=private&option_four=protected&correct_option=private)`
+**PUT** `(http://localhost:8080/api/question/{id})`
 
 Update an existing MCQ question identified by `questionId` using JSON payload in the request body.
 
 ### Delete Question
 
-**DELETE** `(http://localhost:8080/mcq/deleteQuestion/3)`
+**DELETE** `(http://localhost:8080/api/question/{id})`
 
 Delete an existing MCQ question identified by `questionId`.
 
+### Create MCQ Question
+
+**POST** `(http://localhost:8080/api/question/upload)`
+
+Create a new MCQ question using excel file. That means we can enter question in database using excel sheet provided
+            
 
 # Category and Subcategory Operations
 
@@ -141,25 +135,34 @@ Delete an existing MCQ question identified by `questionId`.
 
 ### Create Category
 
-**POST** `http://localhost:8080/category/createCategory`
+**POST** `http://localhost:8080/api/category`
 
 Create a new category using JSON payload in the request body.
 
+#### Example Request Body:
+
+```json
+{
+    "categoryName": "Spring Core",
+    "categoryDescription": "Spring Core category"
+}
+```
+
 ### Read All Categories
 
-**GET** `http://localhost:8080/category/getCategory`
+**GET** `http://localhost:8080/api/category`
 
 Retrieve all categories stored in the database.
 
 ### Update Category
 
-**PUT** `http://localhost:8080/category/updateCategory/{id}`
+**PUT** `http://localhost:8080/api/category/{id}`
 
 Update an existing category identified by categoryId using JSON payload in the request body.
 
 ### Delete Category
 
-**DELETE** `http://localhost:8080/category/deleteCategaory/{id}`
+**DELETE** `http://localhost:8080/api/categaory/{id}`
 
 Delete an existing category identified by categoryId.
 
@@ -167,25 +170,38 @@ Delete an existing category identified by categoryId.
 
 ### Create Subcategory
 
-**POST** `http://localhost:8080/subcategory/createSubcategory`
+**POST** `http://localhost:8080/api/subcategory`
 
 Create a new subcategory using JSON payload in the request body.
 
+#### Example Request Body:
+
+```json
+{
+    "subcategoryName":"Annotations",
+    "subcategoryDescription":"Annotation category",
+    "category":{
+    "categoryName": "Spring Core",
+   "categoryDescription": "Springboot Framework category"
+    }
+}
+```
+
 ### Read All Subcategories
 
-**GET** `http://localhost:8080/subcategory/getSubcategory`
+**GET** `http://localhost:8080/api/subcategory`
 
 Retrieve all subcategories stored in the database.
 
 ### Update Subcategory
 
-**PUT** `http://localhost:8080/subcategory/updateSubcategory/{id}`
+**PUT** `http://localhost:8080/api/subcategory/{id}`
 
 Update an existing subcategory identified by subcategoryId using JSON payload in the request body.
 
 ### Delete Subcategory
 
-**DELETE** `http://localhost:8080/subcategory/deleteCategory/{id}`
+**DELETE** `http://localhost:8080/api/subcategory/{id}`
 
 Delete an existing subcategory identified by subcategoryId.
 
